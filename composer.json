@@ -25,7 +25,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Sabinks\\FreshbooksClientPhp\\src\\": "src"
+            "Sabinks\\FreshbooksClientPhp\\": "src/"
         }
     },
     "autoload-dev": {
