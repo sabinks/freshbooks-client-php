@@ -95,28 +95,31 @@ class FreshbooksClientPhp{
     }
 
     public function invoiceCreate($input =[]){
+        $invoice = [     
+            "email" =>  $input['customerEmail'],  //client email
+            "customerid" =>  $input['customerId'],        //client id
+            "create_date" =>  Carbon::now()->toDateString(), 
+            "lines" =>  [
+                [ 
+                    'name' => $input['product']['product']['name'],
+                    'qty' => 1,
+                    'description' => $input['product']['product']['description'],
+                    "sku" => $input['product']['product']['id'],
+                    "vis_state" => $input['product']['product']['vis_state'],
+                    'unit_cost' => [
+                        'amount' => $input['product']['product']['unit_cost']['amount'],
+                        'code' => $input['product']['product']['unit_cost']['code']
+                    ]
+                ],
+            ]
+        ];
+        if($input['invoiceNumber']){
+            $invoice['invoice_number'] =  $input['invoiceNumber'];
+        }
         try {
             $response = Http::withHeaders($this->headers)
                 ->post('https://api.freshbooks.com/accounting/account/' . $this->businessId .'/invoices/invoices',[
-                "invoice" =>  [     
-                    "email" =>  $input['customerEmail'],  //client email
-                    "customerid" =>  $input['customerId'],        //client id
-                    "create_date" =>  Carbon::now()->toDateString(), 
-                    "invoice_number" => $input['invoiceNumber'],
-                    "lines" =>  [
-                        [ 
-                            'name' => $input['product']['product']['name'],
-                            'qty' => 1,
-                            'description' => $input['product']['product']['description'],
-                            "sku" => $input['product']['product']['id'],
-                            "vis_state" => $input['product']['product']['vis_state'],
-                            'unit_cost' => [
-                                'amount' => $input['product']['product']['unit_cost']['amount'],
-                                'code' => $input['product']['product']['unit_cost']['code']
-                            ]
-                        ],
-                    ]
-                ]
+                "invoice" =>  $invoice
             ]);
 
             return $this->getResponse($response); 
