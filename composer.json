@@ -16,11 +16,11 @@
         }
     ],
     "require": {
-        "php": "^8.0",
-        "illuminate/support": "^9.0"
+        "php": "^7.3 | ^8.0",
+        "illuminate/support": "^8.83.27"
     },
     "require-dev": {
-        "orchestra/testbench": "^7.0",
+        "orchestra/testbench": "^6.25",
         "phpunit/phpunit": "^9.6"
     },
     "autoload": {
